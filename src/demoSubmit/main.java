@@ -62,8 +62,8 @@ public class main {
 		
 		//Set POST pairs
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
-		postData.add(new BasicNameValuePair("IWEDIT2","tori"));
-		postData.add(new BasicNameValuePair("IWEDIT3","tori22"));
+		postData.add(new BasicNameValuePair("IWEDIT2","xxx"));
+		postData.add(new BasicNameValuePair("IWEDIT3","xxxx"));
 		postData.add(new BasicNameValuePair("IW_FormName","IWForm1"));
 		postData.add(new BasicNameValuePair("IW_FormClass","TIWForm1"));
 		postData.add(new BasicNameValuePair("IW_width","1300"));
