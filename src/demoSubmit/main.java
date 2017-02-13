@@ -245,8 +245,8 @@ public class main {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver"); 
 			p = new Properties();
-	        p.put("user","smallsun");
-	        p.put("password","711113");
+	        p.put("user","xxxx");
+	        p.put("password","xxxx");
 			conn = DriverManager.getConnection("jdbc:mariadb://10.110.21.71:3306/smallsun_drifter", p);
 			stmt = conn.createStatement();;
 			if(!conn.isClosed()) {
