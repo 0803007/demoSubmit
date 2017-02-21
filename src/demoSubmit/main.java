@@ -38,7 +38,7 @@ import org.jsoup.select.Elements;
 public class main {
 	static CloseableHttpClient httpclient;
 	public static void main(String[] args) throws ClientProtocolException, IOException  {
-	
+
 		httpclient = HttpClients.createDefault();
 		//-------Step 0: get session id------
 		String _uri = "http://c.lrits.net:9090/";
@@ -47,23 +47,23 @@ public class main {
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 		CloseableHttpResponse sessionResponse = httpclient.execute(httpGet);
-		
+
 		//System.out.println("response content:" + EntityUtils.toString(sessionResponse.getEntity())); 
 		String tmp = sessionResponse.getFirstHeader("Set-Cookie").getValue();
 		String session_str = (String) tmp.subSequence(43,tmp.length()-1);
 		System.out.println(session_str);	
 		System.out.println(sessionResponse.getFirstHeader("Set-Cookie").getValue());
 		//-------Step 1: login & go into default page------
-		
+
 		//Use Defalut value	
 		String uri = "http://c.lrits.net:9090/" + session_str +"/$/";
 		HttpPost httpPost = new HttpPost(uri);
 		System.out.println(uri);	
-		
+
 		//Set POST pairs
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
-		postData.add(new BasicNameValuePair("IWEDIT2","xxx"));
-		postData.add(new BasicNameValuePair("IWEDIT3","xxxx"));
+		postData.add(new BasicNameValuePair("IWEDIT2","tori"));
+		postData.add(new BasicNameValuePair("IWEDIT3","tori22"));
 		postData.add(new BasicNameValuePair("IW_FormName","IWForm1"));
 		postData.add(new BasicNameValuePair("IW_FormClass","TIWForm1"));
 		postData.add(new BasicNameValuePair("IW_width","1300"));
@@ -72,27 +72,27 @@ public class main {
 		postData.add(new BasicNameValuePair("IW_ActionParam",""));
 		postData.add(new BasicNameValuePair("IW_SessionID_",session_str));
 		postData.add(new BasicNameValuePair("IW_TrackID_","50"));
-		
+
 		//Execute & Get Response
 		httpPost.setEntity(new UrlEncodedFormEntity(postData));
 		CloseableHttpResponse response = httpclient.execute(httpPost);
-	    HttpEntity entity = response.getEntity();
+		HttpEntity entity = response.getEntity();
 		String html = EntityUtils.toString(entity);
-		
+
 		//Print response
 		try {
-		    System.out.println(response.getStatusLine());   
-            if (entity != null) {  
-                //System.out.println("contentEncoding:" + entity.getContentEncoding());
-                //System.out.println("response content:" + html);
-            }
-            //release
-		    //EntityUtils.consume(entity);
-            //httpclient.close();  
+			System.out.println(response.getStatusLine());   
+			if (entity != null) {  
+				//System.out.println("contentEncoding:" + entity.getContentEncoding());
+				//System.out.println("response content:" + html);
+			}
+			//release
+			//EntityUtils.consume(entity);
+			//httpclient.close();  
 		} finally {
-		    response.close();
+			response.close();
 		}
-	
+
 		//-------Step 2: Click Page2------
 		//New url
 		HttpPost httpPost2 = new HttpPost(uri);
@@ -128,21 +128,21 @@ public class main {
 		//Execute & Get Response
 		httpPost2.setEntity(new UrlEncodedFormEntity(postData2));
 		CloseableHttpResponse response2 = httpclient.execute(httpPost2);
-	    HttpEntity entity2 = response2.getEntity();
-	    String html2 = EntityUtils.toString(entity2);
-		
+		HttpEntity entity2 = response2.getEntity();
+		String html2 = EntityUtils.toString(entity2);
+
 		//Print response
 		try {
-		    System.out.println(response2.getStatusLine());
-            if (entity2 != null) {
-                //System.out.println("contentEncoding:" + entity2.getContentEncoding());  
-                //System.out.println("response content:" + html);  
-            }
-            //release
-		    //EntityUtils.consume(entity2);
-            //httpclient.close();
+			System.out.println(response2.getStatusLine());
+			if (entity2 != null) {
+				//System.out.println("contentEncoding:" + entity2.getContentEncoding());  
+				//System.out.println("response content:" + html);  
+			}
+			//release
+			//EntityUtils.consume(entity2);
+			//httpclient.close();
 		}finally{
-		    response2.close();
+			response2.close();
 		}
 		//-------Step 3: Click Page3------
 		//New url
@@ -179,23 +179,23 @@ public class main {
 		//Execute & Get Response
 		httpPost3.setEntity(new UrlEncodedFormEntity(postData3));
 		CloseableHttpResponse response3 = httpclient.execute(httpPost3);
-	    HttpEntity entity3 = response3.getEntity();
-	    String html3 = EntityUtils.toString(entity3);
-		
+		HttpEntity entity3 = response3.getEntity();
+		String html3 = EntityUtils.toString(entity3);
+
 		//Print response
 		try {
-		    System.out.println(response3.getStatusLine());
-            if (entity3 != null) {
-                //System.out.println("contentEncoding:" + entity2.getContentEncoding());  
-                //System.out.println("response content:" + html);  
-            }
-            //release
-		    EntityUtils.consume(entity3);
-            httpclient.close();
+			System.out.println(response3.getStatusLine());
+			if (entity3 != null) {
+				//System.out.println("contentEncoding:" + entity2.getContentEncoding());  
+				//System.out.println("response content:" + html);  
+			}
+			//release
+			EntityUtils.consume(entity3);
+			httpclient.close();
 		}finally{
-		    response3.close();
+			response3.close();
 		}
-		      
+
 		//-------------Step 4: transfer HTML to DOM  and Get row data By ID-----------------
 		//ArrayList<String> record = new ArrayList<String>(); 
 		ArrayList<ArrayList<String>> lists = new ArrayList<ArrayList<String>>();
@@ -204,40 +204,40 @@ public class main {
 		Elements trs = doc.select("#TIWDBADVWEBGRID1_").select("tr");
 		for(int i = 0;i<trs.size();i++){
 			ArrayList<String> record = new ArrayList<String>(); 
-            Elements tds = trs.get(i).select("td");
-            for(int j = 0;j<tds.size();j++){
-                String text = tds.get(j).text();
-                //System.out.println(text);
-                record.add(text);
-            }
-            lists.add(record);
-        }
+			Elements tds = trs.get(i).select("td");
+			for(int j = 0;j<tds.size();j++){
+				String text = tds.get(j).text();
+				//System.out.println(text);
+				record.add(text);
+			}
+			lists.add(record);
+		}
 		//Page 2 :
 		doc = Jsoup.parse(html2);
 		trs = doc.select("#TIWDBADVWEBGRID1_").select("tr");
 		for(int i = 0;i<trs.size();i++){
 			ArrayList<String> record = new ArrayList<String>(); 
-            Elements tds = trs.get(i).select("td");
-            for(int j = 0;j<tds.size();j++){
-                String text = tds.get(j).text();
-                System.out.println(text);
-                record.add(text);
-            }
-            lists.add(record);
-        }
+			Elements tds = trs.get(i).select("td");
+			for(int j = 0;j<tds.size();j++){
+				String text = tds.get(j).text();
+				System.out.println(text);
+				record.add(text);
+			}
+			lists.add(record);
+		}
 		//Page 3 :
 		doc = Jsoup.parse(html3);
 		trs = doc.select("#TIWDBADVWEBGRID1_").select("tr");
 		for(int i = 0;i<trs.size();i++){
 			ArrayList<String> record = new ArrayList<String>(); 
-            Elements tds = trs.get(i).select("td");
-            for(int j = 0;j<tds.size();j++){
-                String text = tds.get(j).text();
-                System.out.println(text);
-                record.add(text);
-            }
-            lists.add(record);
-        }
+			Elements tds = trs.get(i).select("td");
+			for(int j = 0;j<tds.size();j++){
+				String text = tds.get(j).text();
+				System.out.println(text);
+				record.add(text);
+			}
+			lists.add(record);
+		}
 		//-------------Step 5: Connection to DB and insert data-----------------
 		Connection conn = null;
 		Statement stmt = null;
@@ -245,44 +245,44 @@ public class main {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver"); 
 			p = new Properties();
-	        p.put("user","xxxx");
-	        p.put("password","xxxx");
+			p.put("user","smallsun");
+			p.put("password","711113");
 			conn = DriverManager.getConnection("jdbc:mariadb://10.110.21.71:3306/smallsun_drifter", p);
 			stmt = conn.createStatement();;
 			if(!conn.isClosed()) {
-		        System.out.println("資料庫連線成功"); 
-		        for(int i=0;i<lists.size();i++){
-		        	if (lists.get(i).size() == 11 ){	        	
-			        	String Id = lists.get(i).get(3);
-			        	String Status = lists.get(i).get(2);
-			        	String TimeStamp = lists.get(i).get(4).replace("/", "-");
-			        	String Lat = lists.get(i).get(5);
-			        	String Lon = lists.get(i).get(6);
-			        	String Temp = lists.get(i).get(7);
-			        	String Vol = lists.get(i).get(8);
-			        	String Dir = lists.get(i).get(9);
-			        	String Vel = lists.get(i).get(10);
-			        	String str = "'" + Id + "','" +  Status + "','" + TimeStamp + "'," + Lat + "," + Lon + "," + Temp + "," + Vol + "," + Dir + "," + Vel  ;
-			        	System.out.println(str); 
-			        	if (!Status.equals("需要檢查")){  //ignore the data need "需要檢查"
-			        		String sql = "REPLACE INTO Drifter_Data(Drifter_ID,Status,TimeStamp,Lat,Lon,Temp,Vol,Dir,Vel) VALUES (" + str +")"; 
-			        		try {
+				System.out.println("資料庫連線成功"); 
+				for(int i=0;i<lists.size();i++){
+					if (lists.get(i).size() == 11 ){	        	
+						String Id = lists.get(i).get(3);
+						String Status = lists.get(i).get(2);
+						String TimeStamp = lists.get(i).get(4).replace("/", "-");
+						String Lat = lists.get(i).get(5);
+						String Lon = lists.get(i).get(6);
+						String Temp = lists.get(i).get(7);
+						String Vol = lists.get(i).get(8);
+						String Dir = lists.get(i).get(9);
+						String Vel = lists.get(i).get(10);
+						String str = "'" + Id + "','" +  Status + "','" + TimeStamp + "'," + Lat + "," + Lon + "," + Temp + "," + Vol + "," + Dir + "," + Vel  ;
+						System.out.println(str); 
+						if (!Status.equals("需要檢查")){  //ignore the data need "需要檢查"
+							String sql = "REPLACE INTO Drifter_Data(Drifter_ID,Status,TimeStamp,Lat,Lon,Temp,Vol,Dir,Vel) VALUES (" + str +")"; 
+							try {
 								stmt.executeUpdate(sql);
 							} catch (SQLException e) {
 								// TODO Auto-generated catch block
-								System.out.println("Sql語法錯誤"); 
+								System.out.println("SQL語法錯誤"); 
 								e.printStackTrace();
 							}
-			        	}
-		        	}
-		        }
+						}
+					}
+				}
 			}
-		    conn.close();  
+			conn.close();  
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("資料庫連線失敗"); 
 		} 
-		
-    }
+
+	}
 }
